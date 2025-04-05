@@ -1,0 +1,20 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "wolves:blocks/hand_crank_off"
+      },
+      "when": {
+        "crank": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "wolves:blocks/hand_crank_on"
+      },
+      "when": {
+        "crank": "true"
+      }
+    }
+  ]
+}

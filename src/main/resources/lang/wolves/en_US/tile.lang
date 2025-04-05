@@ -1,0 +1,14 @@
+tile.wolves.sunlamp.idle.name=Sunlamp
+tile.wolves.sunlamp.idle.desc=A redstone lamp that shines as bright as the sun.
+tile.wolves.sunlamp.active.name=Sunlamp
+tile.wolves.sunlamp.active.desc=A redstone lamp that shines as bright as the sun.
+tile.wolves.companioncube.name=Companion Cube
+tile.wolves.companioncube.desc=You've stretched a wolf's face over a cube. You monster.
+tile.wolves.companionmeat.name=Companion Meat
+tile.wolves.companionmeat.desc=You've not really supposed to have this.
+tile.wolves.companionslab.name=Companion Slab
+tile.wolves.companionslab.desc=What have you done?!
+tile.wolves.handcrank.name=Hand Crank
+tile.wolves.handcrank.desc=Crank it!
+tile.wolves.millstone.name=Mill Stone
+tile.wolves.millstone.desc=Crushes up items into new items.

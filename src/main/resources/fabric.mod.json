@@ -1,12 +1,14 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
+  "id": "wolves",
   "version": "${version}",
 
-  "name": "Example Mod",
+  "name": "Better Than Wolves",
   "description": "This mod aims to help new BTA modders.",
   "authors": [
-    "Turnip Labs"
+    "Team Port",
+	"Flower Child (Original Mod)",
+	"kozibrodka (SAPI Port)"
   ],
   "contact": {
     "homepage": "",
@@ -16,27 +18,40 @@
 	"icon": "icon.png",
   "license": "CC0-1.0",
 
+
   "environment": "*",
   "entrypoints": {
     "main": [
-			"turniplabs.examplemod.ExampleMod"
-    ],
+			"teamport.wolves.BetterThanWolves"
+    	],
+		"client": [
+			"teamport.wolves.BetterThanWolvesClient"
+		],
 		"beforeGameStart": [
-			"turniplabs.examplemod.ExampleMod"
+			"teamport.wolves.BetterThanWolves"
 		],
 		"afterGameStart": [
-			"turniplabs.examplemod.ExampleMod"
+			"teamport.wolves.BetterThanWolves"
+		],
+		"beforeClientStart": [
+			"teamport.wolves.BetterThanWolvesClient"
+		],
+		"afterClientStart": [
+			"teamport.wolves.BetterThanWolvesClient"
 		],
 		"recipesReady": [
-			"turniplabs.examplemod.ExampleMod"
+			"teamport.wolves.core.recipes.WolvesRecipes"
+		],
+		"initModels": [
+			"teamport.wolves.client.WolvesModels"
 		]
 	},
   "mixins": [
-      "examplemod.mixins.json"
+  	"wolves.mixins.json"
   ],
 
   "depends": {
-		"minecraft": "*",
+	"minecraft": "*",
     "fabricloader": ">=0.15.5"
   },
   "suggests": {

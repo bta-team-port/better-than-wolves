@@ -1,0 +1,28 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "wolves:blocks/axle_up"
+      },
+      "when": {
+        "axis": "Y"
+      }
+    },
+    {
+      "apply": {
+        "model": "wolves:blocks/axle_forward"
+      },
+      "when": {
+        "axis": "Z"
+      }
+    },
+    {
+      "apply": {
+        "model": "wolves:blocks/axle_sideways"
+      },
+      "when": {
+        "axis": "X"
+      }
+    }
+  ]
+}
