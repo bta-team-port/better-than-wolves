@@ -1,0 +1,151 @@
+[
+  {
+    "name": "wolves:cauldron/donut",
+    "type": "wolves:cauldron",
+    "inputs": [
+      {
+        "stack": {
+          "id": "wolves:item/flour"
+        }
+      }
+    ],
+    "output": {
+      "id": "wolves:item/food_donut",
+      "amount": 4
+    }
+  },
+  {
+    "name": "wolves:cauldron/chocolate_donut",
+    "type": "wolves:cauldron",
+    "inputs": [
+      {
+        "stack": {
+          "id": "wolves:item/food_donut"
+        }
+      },
+      {
+        "stack": {
+          "id": "minecraft:item/dye",
+          "meta": 3
+        }
+      }
+    ],
+    "output": {
+      "id": "wolves:item/food_donut_chocolate"
+    }
+  },
+  {
+    "name": "wolves:cauldron/glazed_donut",
+    "type": "wolves:cauldron",
+    "inputs": [
+      {
+        "stack": {
+          "id": "wolves:item/food_donut"
+        }
+      },
+      {
+        "stack": {
+          "id": "minecraft:item/dust_sugar"
+        }
+      }
+    ],
+    "output": {
+      "id": "wolves:item/food_donut_glazed"
+    }
+  },
+  {
+    "name": "wolves:cauldron/filled_donut",
+    "type": "wolves:cauldron",
+    "inputs": [
+      {
+        "stack": {
+          "id": "wolves:item/food_donut"
+        }
+      },
+      {
+        "stack": {
+          "id": "minecraft:item/food_cherry"
+        }
+      }
+    ],
+    "output": {
+      "id": "wolves:item/food_donut_filled"
+    }
+  },
+  {
+    "name": "wolves:cauldron/fish_raw_to_fish_cooked",
+    "type": "wolves:cauldron",
+    "inputs": [
+      {
+        "stack": {
+          "id": "minecraft:item/food_fish_raw"
+        }
+      }
+    ],
+    "output": {
+      "id": "minecraft:item/food_fish_cooked"
+    }
+  },
+  {
+    "name": "wolves:cauldron/porkchop_raw_to_porkchop_cooked",
+    "type": "wolves:cauldron",
+    "inputs": [
+      {
+        "stack": {
+          "id": "minecraft:item/food_porkchop_raw"
+        }
+      }
+    ],
+    "output": {
+      "id": "minecraft:item/food_porkchop_cooked"
+    }
+  },
+  {
+    "name": "wolves:cauldron/wolfchop_raw_to_wolfchop_cooked",
+    "type": "wolves:cauldron",
+    "inputs": [
+      {
+        "stack": {
+          "id": "wolves:item/food_wolfchop_raw"
+        }
+      }
+    ],
+    "output": {
+      "id": "wolves:item/food_wolfchop_cooked"
+    }
+  },
+  {
+    "name": "wolves:cauldron/ground_netherrack_to_hellfire_dust",
+    "type": "wolves:cauldron",
+    "inputs": [
+      {
+        "stack": {
+          "id": "wolves:item/dust_netherrack",
+          "amount": 8
+        }
+      }
+    ],
+    "output": {
+      "id": "wolves:item/dust_hellfire"
+    }
+  },
+  {
+    "name": "wolves:cauldron/scoured_leather_and_dung_to_tanned_leather",
+    "type": "wolves:cauldron",
+    "inputs": [
+      {
+        "stack": {
+          "id": "wolves:item/leather_scoured"
+        }
+      },
+      {
+        "stack": {
+          "id": "wolves:item/dung"
+        }
+      }
+    ],
+    "output": {
+      "id": "wolves:item/leather_tanned"
+    }
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "name": "wolves:millstone/rope_to_string",
+    "type": "wolves:millstone",
+    "input": {
+      "stack": {
+        "id": "minecraft:item/rope"
+      }
+    },
+    "output": {
+      "id": "minecraft:item/string",
+      "amount": 2
+    }
+  }
+]

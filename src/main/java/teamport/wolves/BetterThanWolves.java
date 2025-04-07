@@ -6,11 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import teamport.wolves.core.WolvesConfig;
 import teamport.wolves.core.blocks.WolvesBlocks;
-import teamport.wolves.core.blocks.entity.TileEntityMillStone;
+import teamport.wolves.core.blocks.entity.TileEntityCauldron;
+import teamport.wolves.core.blocks.entity.TileEntityMillstone;
 import teamport.wolves.core.items.WolvesItems;
 import turniplabs.halplibe.helper.EntityHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
-import turniplabs.halplibe.util.RecipeEntrypoint;
 
 
 public class BetterThanWolves implements ModInitializer, GameStartEntrypoint {
@@ -21,7 +21,8 @@ public class BetterThanWolves implements ModInitializer, GameStartEntrypoint {
     public void onInitialize() {
 		new WolvesConfig();
 
-		EntityHelper.createTileEntity(TileEntityMillStone.class, NamespaceID.getPermanent(MOD_ID, "millstone"));
+		EntityHelper.createTileEntity(TileEntityMillstone.class, NamespaceID.getPermanent(MOD_ID, "millstone"));
+		EntityHelper.createTileEntity(TileEntityCauldron.class, NamespaceID.getPermanent(MOD_ID, "cauldron"));
 
         LOGGER.info("Better Than Wolves has been initialized.");
     }

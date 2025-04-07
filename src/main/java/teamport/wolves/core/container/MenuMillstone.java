@@ -6,16 +6,14 @@ import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.player.inventory.container.ContainerInventory;
 import net.minecraft.core.player.inventory.menu.MenuAbstract;
 import net.minecraft.core.player.inventory.slot.Slot;
-import teamport.wolves.core.blocks.entity.TileEntityMillStone;
+import teamport.wolves.core.blocks.entity.TileEntityMillstone;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MenuMillstone extends MenuAbstract {
-	TileEntityMillStone tileEntity;
-	private int grindProgress = 0;
+	private final TileEntityMillstone tileEntity;
 
-	public MenuMillstone(ContainerInventory inventory, TileEntityMillStone tileEntity) {
+	public MenuMillstone(ContainerInventory inventory, TileEntityMillstone tileEntity) {
 		this.tileEntity = tileEntity;
 
 		for (int millInv = 0; millInv < 3; millInv++) {
@@ -38,6 +36,7 @@ public class MenuMillstone extends MenuAbstract {
 		super.broadcastChanges();
 
 		for (ContainerListener crafter : containerListeners) {
+			int grindProgress = 0;
 			if (grindProgress != tileEntity.grindProgress) {
 				crafter.updateCraftingInventoryInfo(this, 0, tileEntity.grindProgress);
 			}
@@ -53,50 +52,38 @@ public class MenuMillstone extends MenuAbstract {
 
 	@Override
 	public List<Integer> getMoveSlots(InventoryAction action, Slot slot, int i, Player player) {
-		if (slot.index >= 0 && slot.index <= 3) {
-			return getSlots(slot.index, 1, false);
+		if (slot.index >= 0 && slot.index <= 2) {
+			return getSlots(0, 3, false);
 		} else {
 			if (action == InventoryAction.MOVE_ALL) {
-				if (slot.index >= 4 && slot.index <= 30) {
-					return getSlots(4, 27, false);
+				if (slot.index >= 3 && slot.index <= 30) {
+					return getSlots(3, 27, false);
 				}
 
-				if (slot.index >= 30 && slot.index <= 38) {
-					return getSlots(30, 9, false);
+				if (slot.index >= 31 && slot.index <= 39) {
+					return getSlots(31, 9, false);
 				}
 			}
 
-			return slot.index >= 4 && slot.index <= 38 ? getSlots(4, 36, false) : null;
+			return action == InventoryAction.MOVE_SIMILAR && slot.index >= 30 && slot.index <= 39 ? this.getSlots(3, 27, false) : null;
 		}
 	}
 
 	@Override
-		public List<Integer> getTargetSlots (InventoryAction action, Slot slot,int target, Player player) {
-		if (slot.index >= 4 && slot.index <= 39) {
-			if (action != InventoryAction.MOVE_ALL) {
-				if (target == 1) {
-					return getSlots(0, 1, false);
+		public List<Integer> getTargetSlots (InventoryAction action, Slot slot, int target, Player player) {
+		if (slot.index >= 0 && slot.index <= 2) {
+			return this.getSlots(3, 36, false);
+		} else {
+			if (slot.index >= 3 && slot.index <= 39) {
+				if (slot.index <= 29) {
+					return  getSlots(0, 3, false);
 				}
 
-				if (target == 2) {
-					return getSlots(1, 1, false);
-				}
-			}
-
-			if (slot.index <= 29) {
-				return getSlots(30, 9, false);
-			}
-
-			if (slot.index >= 31 && slot.index <= 38) {
 				return getSlots(3, 27, false);
 			}
 		}
 
-		if (slot.index >= 0 && slot.index <= 3) {
-			return slot.index == 3 ? getSlots(4, 36, true) : getSlots(4, 36, false);
-		} else {
-			return null;
-		}
+		return null;
 	}
 
 	@Override

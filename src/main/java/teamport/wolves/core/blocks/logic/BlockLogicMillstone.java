@@ -14,16 +14,17 @@ import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.Catalyst;
 import teamport.wolves.BetterThanWolves;
 import teamport.wolves.core.blocks.WolvesBlocks;
-import teamport.wolves.core.blocks.entity.TileEntityMillStone;
+import teamport.wolves.core.blocks.entity.TileEntityMillstone;
 import teamport.wolves.core.util.BlockPosition;
 import teamport.wolves.core.util.IMechanicalDevice;
+import teamport.wolves.core.util.InventoryHandler;
 
 import java.util.Random;
 
-public class BlockLogicMillStone extends BlockLogic implements IMechanicalDevice {
-	public BlockLogicMillStone(Block<?> block) {
+public class BlockLogicMillstone extends BlockLogic implements IMechanicalDevice {
+	public BlockLogicMillstone(Block<?> block) {
 		super(block, Material.stone);
-		block.withEntity(TileEntityMillStone::new);
+		block.withEntity(TileEntityMillstone::new);
 	}
 
 	@Override
@@ -39,9 +40,9 @@ public class BlockLogicMillStone extends BlockLogic implements IMechanicalDevice
 
 	@Override
 	public boolean onBlockRightClicked(World world, int x, int y, int z, Player player, Side side, double xHit, double yHit) {
-		TileEntityMillStone tileEntity = (TileEntityMillStone) world.getTileEntity(x, y, z);
+		TileEntityMillstone tileEntity = (TileEntityMillstone) world.getTileEntity(x, y, z);
 
-		if (tileEntity == null) {
+		if (tileEntity == null || tileEntity.isInvalid()) {
 			world.setBlockWithNotify(x, y, z, 0);
 			BetterThanWolves.LOGGER.error("Tile entity at {}, {}, {} was null or invalid and has been removed!", x, y, z);
 			return false;
@@ -74,7 +75,7 @@ public class BlockLogicMillStone extends BlockLogic implements IMechanicalDevice
 			if (blockOn) {
 				setBlockOn(world, x, y, z, false);
 			} else {
-				TileEntityMillStone tileEntity = (TileEntityMillStone) world.getTileEntity(x, y, z);
+				TileEntityMillstone tileEntity = (TileEntityMillstone) world.getTileEntity(x, y, z);
 				if (tileEntity.IsWholeCompanionCubeNextToBeProcessed()) {
 					world.playSoundEffect(null,
 						SoundCategory.ENTITY_SOUNDS,
@@ -190,5 +191,12 @@ public class BlockLogicMillStone extends BlockLogic implements IMechanicalDevice
 				0.2F,
 				1.25F);
 		}
+	}
+
+	@Override
+	public void onBlockRemoved(World world, int x, int y, int z, int data) {
+		super.onBlockRemoved(world, x, y, z, data);
+		TileEntityMillstone tileEntity = (TileEntityMillstone) world.getTileEntity(x, y, z);
+		InventoryHandler.dropTileContents(world, x, y, z, tileEntity);
 	}
 }

@@ -1,0 +1,15 @@
+[
+  {
+    "name": "wolves:millstone/rope_to_hemp_fiber",
+    "type": "wolves:millstone",
+    "input": {
+      "stack": {
+        "id": "minecraft:item/rope"
+      }
+    },
+    "output": {
+      "id": "wolves:item/hemp_fiber",
+      "amount": 6
+    }
+  }
+]

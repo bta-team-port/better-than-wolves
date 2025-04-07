@@ -13,6 +13,10 @@ public class WolvesConfig {
 			.addEntry("blockIDs", 2048)
 			.addEntry("itemIDs", 18048);
 
+		TOML.addCategory("Difficulty")
+			.addEntry("newFlourRecipes", true)
+			.addEntry("newRopeRecipe", true);
+
 		cfg = new TomlConfigHandler(BetterThanWolves.MOD_ID, TOML);
 	}
 }

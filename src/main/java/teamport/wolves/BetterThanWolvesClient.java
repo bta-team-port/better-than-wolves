@@ -3,11 +3,13 @@ package teamport.wolves;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.render.texture.stitcher.TextureRegistry;
 import sunsetsatellite.catalyst.Catalyst;
-import sunsetsatellite.catalyst.core.util.mp.MpGuiEntry;
 import sunsetsatellite.catalyst.core.util.mp.MpGuiEntryClient;
 import teamport.wolves.client.WolvesModels;
-import teamport.wolves.client.gui.ScreenMillStone;
-import teamport.wolves.core.blocks.entity.TileEntityMillStone;
+import teamport.wolves.client.gui.ScreenCauldron;
+import teamport.wolves.client.gui.ScreenMillstone;
+import teamport.wolves.core.blocks.entity.TileEntityCauldron;
+import teamport.wolves.core.blocks.entity.TileEntityMillstone;
+import teamport.wolves.core.container.MenuCauldron;
 import teamport.wolves.core.container.MenuMillstone;
 import turniplabs.halplibe.util.ClientStartEntrypoint;
 
@@ -21,7 +23,10 @@ public class BetterThanWolvesClient implements ClientModInitializer, ClientStart
 	@Override
 	public void onInitializeClient() {
 		Catalyst.GUIS.register("wolves:gui/millstone",
-			new MpGuiEntryClient(TileEntityMillStone.class, ScreenMillStone.class, MenuMillstone.class));
+			new MpGuiEntryClient(TileEntityMillstone.class, ScreenMillstone.class, MenuMillstone.class));
+
+		Catalyst.GUIS.register("wolves:gui/cauldron",
+			new MpGuiEntryClient(TileEntityCauldron.class, ScreenCauldron.class, MenuCauldron.class));
 
 		try {
 			TextureRegistry.initializeAllFiles(MOD_ID, TextureRegistry.blockAtlas, true);

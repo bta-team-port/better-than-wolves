@@ -7,14 +7,14 @@ import net.minecraft.client.render.texture.Texture;
 import net.minecraft.core.lang.I18n;
 import net.minecraft.core.player.inventory.container.ContainerInventory;
 import org.lwjgl.opengl.GL11;
-import teamport.wolves.core.blocks.entity.TileEntityMillStone;
+import teamport.wolves.core.blocks.entity.TileEntityMillstone;
 import teamport.wolves.core.container.MenuMillstone;
 
 @Environment(EnvType.CLIENT)
-public class ScreenMillStone extends ScreenContainerAbstract {
-	TileEntityMillStone tileEntity;
+public class ScreenMillstone extends ScreenContainerAbstract {
+	TileEntityMillstone tileEntity;
 
-	public ScreenMillStone(ContainerInventory inventory, TileEntityMillStone tilEntity) {
+	public ScreenMillstone(ContainerInventory inventory, TileEntityMillstone tilEntity) {
 		super(new MenuMillstone(inventory, tilEntity));
 		this.tileEntity = tilEntity;
 		this.ySize = 193;

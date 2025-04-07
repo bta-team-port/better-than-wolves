@@ -58,10 +58,30 @@ public class WolvesModels implements ModelEntrypoint {
 			.setStateInterpreter(new AxleStateInterpreter())
 			.setStateData("wolves:blocks/axle"));
 
-		dispatcher.addDispatch(new BlockModelStandard<>(WolvesBlocks.MILL_STONE)
-			.setTex(0, "wolves:block/mill_stone/top", Side.TOP)
-			.setTex(0, "wolves:block/mill_stone/side", Side.NORTH, Side.EAST, Side.SOUTH, Side.WEST)
-			.setTex(0, "wolves:block/mill_stone/bottom", Side.BOTTOM));
+		dispatcher.addDispatch(new BlockModelStandard<>(WolvesBlocks.MILLSTONE)
+			.setTex(0, "wolves:block/millstone/top", Side.TOP)
+			.setTex(0, "wolves:block/millstone/side", Side.NORTH, Side.EAST, Side.SOUTH, Side.WEST)
+			.setTex(0, "wolves:block/millstone/bottom", Side.BOTTOM));
+
+		dispatcher.addDispatch(new BlockModelStandard<>(WolvesBlocks.CAULDRON)
+			.setTex(0, "wolves:block/cauldron/top", Side.TOP)
+			.setTex(0, "wolves:block/cauldron/side", Side.NORTH, Side.EAST, Side.SOUTH, Side.WEST)
+			.setTex(0, "wolves:block/cauldron/bottom", Side.BOTTOM));
+
+		dispatcher.addDispatch(new BlockModelCake<>(WolvesBlocks.CAKE_PLAIN)
+			.setTex(0, "wolves:block/cake/top_plain", Side.TOP)
+			.setTex(0, "minecraft:block/cake/side", Side.NORTH, Side.EAST, Side.SOUTH, Side.WEST)
+			.setTex(0, "minecraft:block/cake/bottom", Side.BOTTOM));
+
+		dispatcher.addDispatch(new BlockModelCake<>(WolvesBlocks.CAKE_CHOCOLATE)
+			.setTex(0, "wolves:block/cake/top_chocolate", Side.TOP)
+			.setTex(0, "minecraft:block/cake/side", Side.NORTH, Side.EAST, Side.SOUTH, Side.WEST)
+			.setTex(0, "minecraft:block/cake/bottom", Side.BOTTOM));
+
+		dispatcher.addDispatch(new BlockModelCake<>(WolvesBlocks.CAKE_SPRINKLES)
+			.setTex(0, "wolves:block/cake/top_sprinkles", Side.TOP)
+			.setTex(0, "minecraft:block/cake/side", Side.NORTH, Side.EAST, Side.SOUTH, Side.WEST)
+			.setTex(0, "minecraft:block/cake/bottom", Side.BOTTOM));
 	}
 
 	@Override
@@ -81,6 +101,12 @@ public class WolvesModels implements ModelEntrypoint {
 		ModelHelper.setItemModel(WolvesItems.HEMP_FIBER, () -> {
 			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.HEMP_FIBER, MOD_ID);
 			itemModel.icon = TextureRegistry.getTexture("wolves:item/hemp/fiber");
+			return itemModel;
+		});
+
+		ModelHelper.setItemModel(WolvesItems.FABRIC, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.FABRIC, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/hemp/fabric");
 			return itemModel;
 		});
 
@@ -108,6 +134,12 @@ public class WolvesModels implements ModelEntrypoint {
 			return itemModel;
 		});
 
+		ModelHelper.setItemModel(WolvesItems.LEATHER_TANNED, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.LEATHER_TANNED, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/leather/tanned");
+			return itemModel;
+		});
+
 		ModelHelper.setItemModel(WolvesItems.DUST_COAL, () -> {
 			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.DUST_COAL, MOD_ID);
 			itemModel.icon = TextureRegistry.getTexture("wolves:item/dust/dust_coal");
@@ -123,6 +155,74 @@ public class WolvesModels implements ModelEntrypoint {
 		ModelHelper.setItemModel(WolvesItems.DUST_HELLFIRE, () -> {
 			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.DUST_HELLFIRE, MOD_ID);
 			itemModel.icon = TextureRegistry.getTexture("wolves:item/dust/dust_hellfire");
+			itemModel.setFullBright();
+			return itemModel;
+		});
+
+		ModelHelper.setItemModel(WolvesItems.INGOT_HELLFIRE, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.INGOT_HELLFIRE, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/ingot/hellfire");
+			itemModel.setFullBright();
+			return itemModel;
+		});
+
+		ModelHelper.setItemModel(WolvesItems.FOOD_DONUT, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.FOOD_DONUT, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/food/donut/plain");
+			return itemModel;
+		});
+
+		ModelHelper.setItemModel(WolvesItems.FOOD_DONUT_CHOCOLATE, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.FOOD_DONUT_CHOCOLATE, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/food/donut/chocolate");
+			return itemModel;
+		});
+
+		ModelHelper.setItemModel(WolvesItems.FOOD_DONUT_GLAZED, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.FOOD_DONUT_GLAZED, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/food/donut/glazed");
+			return itemModel;
+		});
+
+		ModelHelper.setItemModel(WolvesItems.FOOD_DONUT_FILLED, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.FOOD_DONUT_FILLED, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/food/donut/filled");
+			return itemModel;
+		});
+
+		ModelHelper.setItemModel(WolvesItems.FOOD_CAKE_PLAIN, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.FOOD_CAKE_PLAIN, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/food/cake/plain");
+			return itemModel;
+		});
+
+		ModelHelper.setItemModel(WolvesItems.FOOD_CAKE_CHOCOLATE, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.FOOD_CAKE_CHOCOLATE, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/food/cake/chocolate");
+			return itemModel;
+		});
+
+		ModelHelper.setItemModel(WolvesItems.FOOD_CAKE_SPRINKLES, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.FOOD_CAKE_SPRINKLES, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/food/cake/sprinkles");
+			return itemModel;
+		});
+
+		ModelHelper.setItemModel(WolvesItems.INGOT_SOULFORGED_STEEL, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.INGOT_SOULFORGED_STEEL, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/ingot/soulforged_steel");
+			return itemModel;
+		});
+
+		ModelHelper.setItemModel(WolvesItems.INGOT_SOULFORGED_STEEL_CRUDE, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.INGOT_SOULFORGED_STEEL_CRUDE, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/ingot/soulforged_steel_crude");
+			return itemModel;
+		});
+
+		ModelHelper.setItemModel(WolvesItems.DUNG, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.DUNG, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/dung");
 			return itemModel;
 		});
 	}

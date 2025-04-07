@@ -12,13 +12,15 @@ import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.core.sound.SoundCategory;
 import org.jetbrains.annotations.Nullable;
 import teamport.wolves.core.blocks.WolvesBlocks;
-import teamport.wolves.core.blocks.logic.BlockLogicMillStone;
-import teamport.wolves.core.items.WolvesItems;
-import teamport.wolves.core.recipes.MillStoneRecipeRegistry;
+import teamport.wolves.core.blocks.logic.BlockLogicMillstone;
+import teamport.wolves.core.recipes.WolvesRecipes;
+import teamport.wolves.core.recipes.entry.RecipeEntryMillstone;
 import teamport.wolves.core.util.BlockPosition;
 
-public class TileEntityMillStone extends TileEntity implements Container {
-	ItemStack[] inv = new ItemStack[3];
+import java.util.List;
+
+public class TileEntityMillstone extends TileEntity implements Container {
+	private ItemStack[] inv = new ItemStack[3];
 	public int grindProgress = 0;
 
 	@Override
@@ -73,13 +75,13 @@ public class TileEntityMillStone extends TileEntity implements Container {
 
 	@Override
 	public boolean stillValid(Player player) {
-		if (this.worldObj != null && this.worldObj.getTileEntity(this.x, this.y, this.z) == this) {
-			return player.distanceToSqr((double)this.x + (double)0.5F,
-				(double)this.y + (double)0.5F,
-				(double)this.z + (double)0.5F) <= (double)64.0F;
-		} else {
+		if (worldObj == null || worldObj.getTileEntity(x, y, z) != this) {
 			return false;
 		}
+
+		return player.distanceToSqr((double)x + 0.5,
+			(double)this.y + 0.5,
+			(double)this.z + 0.5) <= 64.0;
 	}
 
 	@Override
@@ -140,7 +142,7 @@ public class TileEntityMillStone extends TileEntity implements Container {
 			return;
 		}
 
-		BlockLogicMillStone block = worldObj.getBlockLogic(x, y, z, BlockLogicMillStone.class);
+		BlockLogicMillstone block = worldObj.getBlockLogic(x, y, z, BlockLogicMillstone.class);
 		if (block == null) {
 			return;
 		}
@@ -180,7 +182,7 @@ public class TileEntityMillStone extends TileEntity implements Container {
 				(float) x + 0.5F,
 				(float) y + 0.5F,
 				(float) z + 0.5F,
-				"mob.ghast.screan",
+				"mob.ghast.scream",
 				2.0F,
 				(worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F + 1.0F);
 		}
@@ -191,8 +193,24 @@ public class TileEntityMillStone extends TileEntity implements Container {
 
 		grindProgress = 0;
 
+		// Custom recipe type outputs.
+		ItemStack milledStack = null;
+		List<RecipeEntryMillstone> list = WolvesRecipes.MILLSTONE.getAllRecipes();
+		for (RecipeEntryMillstone recipeEntry : list) {
+			if (recipeEntry == null) {
+				return;
+			}
+
+			if (recipeEntry.matches(inv[unmilledIndex])) {
+				milledStack = recipeEntry.getOutput().copy();
+			}
+		}
+
+		if (milledStack == null) {
+			return;
+		}
+
 		if (storedId == WolvesBlocks.COMPANION_CUBE.id()) {
-			ejectStack(new ItemStack(WolvesItems.FOOD_WOLFCHOP_RAW));
 			if(inv[unmilledIndex].getMetadata() == 0) {
 				worldObj.playSoundEffect(null,
 					SoundCategory.ENTITY_SOUNDS,
@@ -203,18 +221,6 @@ public class TileEntityMillStone extends TileEntity implements Container {
 					2.0F,
 					(worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F + 1.0F);
 			}
-
-			removeItem(unmilledIndex, 1);
-		}
-
-		ItemStack milledStack = MillStoneRecipeRegistry.getInstance().getResult(storedId);
-		if (milledStack == null) {
-			return;
-		}
-
-		milledStack = new ItemStack(milledStack.itemID, milledStack.stackSize, milledStack.getMetadata());
-		if (milledStack.stackSize == 0) {
-			milledStack.stackSize = 1;
 		}
 
 		removeItem(unmilledIndex, 1);
