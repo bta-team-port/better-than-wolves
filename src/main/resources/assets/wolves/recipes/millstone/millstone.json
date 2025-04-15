@@ -168,5 +168,17 @@
       "amount": 2,
       "meta": 1
     }
+  },
+  {
+    "name": "wolves:millstone/companion_cube_to_wolfchop_raw",
+    "type": "wolves:millstone",
+    "input": {
+      "stack": {
+        "id": "wolves:block/companioncube"
+      }
+    },
+    "output": {
+      "id": "wolves:item/food_wolfchop_raw"
+    }
   }
 ]

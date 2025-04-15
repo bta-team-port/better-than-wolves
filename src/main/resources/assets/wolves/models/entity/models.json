@@ -1,0 +1,9 @@
+{
+  "model_paths": [
+    "/assets/wolves/models/windmill_axles.json",
+    "/assets/wolves/models/windmill_blade_1.json",
+    "/assets/wolves/models/windmill_blade_2.json",
+    "/assets/wolves/models/windmill_blade_3.json",
+    "/assets/wolves/models/windmill_blade_4.json"
+  ]
+}

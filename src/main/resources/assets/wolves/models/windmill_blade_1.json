@@ -1,0 +1,66 @@
+{
+	"format_version": "1.21.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.wolves.windmill_blade_1",
+				"texture_width": 64,
+				"texture_height": 32,
+				"visible_bounds_width": 14,
+				"visible_bounds_height": 14,
+				"visible_bounds_offset": [0, 1, 0]
+			},
+			"bones": [
+				{
+					"name": "axle1",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "axle2",
+					"pivot": [0, 0, 0],
+					"rotation": [90, 0, 0],
+					"cubes": [
+						{
+							"origin": [0, 2, 34],
+							"size": [1, 16, 64],
+							"pivot": [0, 2, 97],
+							"rotation": [0, 0, -22.5],
+							"uv": {
+								"north": {"uv": [0, 16], "uv_size": [1, 16]},
+								"east": {"uv": [0, 16], "uv_size": [64, 16]},
+								"south": {"uv": [63, 16], "uv_size": [1, 16]},
+								"west": {"uv": [0, 16], "uv_size": [64, 16]},
+								"up": {"uv": [64, 17], "uv_size": [-64, -1], "uv_rotation": 90},
+								"down": {"uv": [2, 32], "uv_size": [-2, -32]}
+							}
+						},
+						{
+							"origin": [0, 2, 18],
+							"size": [1, 16, 16],
+							"pivot": [0, 2, 81],
+							"rotation": [0, 0, -22.5],
+							"uv": {
+								"north": {"uv": [0, 16], "uv_size": [1, 16]},
+								"east": {"uv": [0, 16], "uv_size": [16, 16]},
+								"south": {"uv": [63, 16], "uv_size": [1, 16]},
+								"west": {"uv": [0, 16], "uv_size": [16, 16]},
+								"up": {"uv": [64, 17], "uv_size": [-64, -1], "uv_rotation": 90},
+								"down": {"uv": [2, 32], "uv_size": [-2, -32]}
+							}
+						}
+					]
+				},
+				{
+					"name": "axle3",
+					"pivot": [0, 0, 0],
+					"rotation": [180, 0, 0]
+				},
+				{
+					"name": "axle4",
+					"pivot": [0, 0, 0],
+					"rotation": [-90, 0, 0]
+				}
+			]
+		}
+	]
+}

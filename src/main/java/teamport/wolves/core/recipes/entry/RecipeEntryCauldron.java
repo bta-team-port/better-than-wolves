@@ -46,10 +46,8 @@ public class RecipeEntryCauldron extends RecipeEntryBase<List<RecipeSymbol>, Ite
 	}
 
 	public ItemStack getResult(Container inventory) {
-		for (int i = 0; i < getInput().size(); i++) {
-			if (matches(inventory)) {
-				return getOutput().copy();
-			}
+		if (matches(inventory)) {
+			return getOutput().copy();
 		}
 
 		return null;

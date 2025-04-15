@@ -13,15 +13,19 @@ import net.minecraft.core.sound.SoundCategory;
 import net.minecraft.core.util.helper.Axis;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.World;
+import net.minecraft.core.world.WorldSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import teamport.wolves.core.blocks.WolvesBlocks;
 import teamport.wolves.core.items.WolvesItems;
-import teamport.wolves.core.util.BlockPosition;
 
 import java.util.Random;
 
 public class BlockLogicAxle extends BlockLogicAxisAligned {
+	private static final int MASK_POWER = 0b1111_1100;
+	private static final int MASK_AXIS = 0b0000_0011;
+	private static boolean shouldSignal;
+
 	public BlockLogicAxle(Block<?> block) {
 		super(block, Material.wood);
 	}
@@ -34,106 +38,103 @@ public class BlockLogicAxle extends BlockLogicAxisAligned {
 	@Override
 	public void onBlockPlacedByMob(World world, int x, int y, int z, @NotNull Side side, Mob mob, double xPlaced, double yPlaced) {
 		Axis axis = mob.getPlacementDirection(side, PlacementMode.SIDE).getAxis();
+
 		setPowerLevel(world, x, y, z, 0);
 		world.setBlockMetadataWithNotify(x, y, z, axisToMeta(axis));
-		world.scheduleBlockUpdate(x, y, z, this.id(), tickDelay());
+		world.scheduleBlockUpdate(x, y, z, this.block.id(), tickDelay());
 	}
 
 	@Override
 	public void onBlockPlacedOnSide(World world, int x, int y, int z, @NotNull Side side, double xPlaced, double yPlaced) {
 		Axis axis = side.getAxis();
+
 		setPowerLevel(world, x, y, z, 0);
 		world.setBlockMetadataWithNotify(x, y, z, axisToMeta(axis));
-		world.scheduleBlockUpdate(x, y, z, this.id(), tickDelay());
+		world.scheduleBlockUpdate(x, y, z, this.block.id(), tickDelay());
 	}
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-		validatePowerLevel(world, x, y, z);
+			validatePowerLevel(world, x, y, z);
 	}
 
 	private void validatePowerLevel(World world, int x, int y, int z) {
-		int currPow = getPowerLevel(world, x, y, z);
-		Axis axis = getAxisAlignment(world, x, y, z);
+		int currPower = getPowerLevel(world, x, y, z);
+		int meta = world.getBlockMetadata(x, y, z) & MASK_AXIS;
+		Axis axis = metaToAxis(meta);
 
-		if (currPow != 3) {
-			BlockPosition[] potSrcs = new BlockPosition[2];
-			potSrcs[0] = new BlockPosition(x, y, z);
-			potSrcs[1] = new BlockPosition(x, y, z);
+		if (currPower > 0) {
+			emitParticles(world, x, y, z, world.rand);
+		}
 
+		if (currPower != 3) {
+			Side[] sides = new Side[2];
 			switch (axis) {
-				case Z:
-					potSrcs[0].addOffset(0);
-					potSrcs[1].addOffset(1);
-					break;
 				case Y:
-					potSrcs[0].addOffset(2);
-					potSrcs[1].addOffset(3);
+					sides[0] = Side.TOP;
+					sides[1] = Side.BOTTOM;
+					break;
+				case Z:
+					sides[0] = Side.NORTH;
+					sides[1] = Side.SOUTH;
 					break;
 				default:
-					potSrcs[0].addOffset(4);
-					potSrcs[1].addOffset(5);
+					sides[0] = Side.EAST;
+					sides[1] = Side.WEST;
 					break;
 			}
 
-			int maxNeighborPow = 0;
-			int greaterPowerNeighbors = 0;
-			for (int tempSrc = 0; tempSrc < 2; tempSrc++) {
-				int tempId = world.getBlockId(potSrcs[tempSrc].x, potSrcs[tempSrc].y, potSrcs[tempSrc].z);
-
-				// A check for if the neighbors AREN'T axles.
-				if (tempId != WolvesBlocks.AXLE.id()) {
+			int srcCount = 0;
+			int srcPower = 0;
+			for (Side side : sides) {
+				if (world.getBlockId(x + side.getOffsetX(), y + side.getOffsetY(), z + side.getOffsetZ()) != WolvesBlocks.AXLE.id()) {
 					continue;
 				}
 
-				// This checks if the neighboring axles are the same direction as this one.
-				Axis tempAxis = getAxisAlignment(world, potSrcs[tempSrc].x, potSrcs[tempSrc].y, potSrcs[tempSrc].z);
-				if (tempAxis != axis) {
+				int otherMeta = world.getBlockMetadata(x + side.getOffsetX(), y + side.getOffsetY(), z + side.getOffsetZ()) & MASK_AXIS;
+				if (metaToAxis(otherMeta) != axis) {
 					continue;
 				}
 
-				// Increase neighbor count.
-				int tempPower = getPowerLevel(world, potSrcs[tempSrc].x, potSrcs[tempSrc].y, potSrcs[tempSrc].z);
-				if (tempPower > maxNeighborPow) {
-					maxNeighborPow = tempPower;
-				}
-				if (tempPower > currPow) {
-					greaterPowerNeighbors++;
+				int tempPower = WolvesBlocks.AXLE.getLogic().getPowerLevel(world, x + side.getOffsetX(), y + side.getOffsetY(), z + side.getOffsetZ());
+				if (tempPower > srcPower) {
+					srcPower = tempPower;
 				}
 
-				// If there's more than 2 neighbors, explode the axle.
-				if (greaterPowerNeighbors >= 2) {
+				if (tempPower > currPower) {
+					srcCount++;
+				}
+			}
+
+			if (srcCount >= 2) {
+				breakAxle(world, x, y, z);
+				return;
+			}
+
+			int newPower;
+			if (srcPower > currPower) {
+				if (srcPower == 1) {
 					breakAxle(world, x, y, z);
 					return;
 				}
 
-				int newPow;
-				if (maxNeighborPow > currPow) {
-					if (maxNeighborPow == 1) {
-						breakAxle(world, x, y, z);
-						return;
-					}
+				newPower = srcPower - 1;
+			} else {
+				newPower = 0;
+			}
 
-					newPow = maxNeighborPow - 1;
-				} else {
-					newPow = 0;
-				}
-
-				if (newPow != currPow) {
-					setPowerLevel(world, x, y, z, newPow);
-				}
+			if (newPower != currPower) {
+				setPowerLevel(world, x, y, z, newPower);
 			}
 		}
 	}
 
-	private void setPowerLevel(World world, int x, int y, int z, int powLvl) {
-		powLvl &= 3;
-		int meta = world.getBlockMetadata(x, y, z) & 3;
-		meta |= powLvl;
-		world.setBlockMetadataWithNotify(x, y, z, meta);
+	public void setPowerLevel(World world, int x, int y, int z, int power) {
+		int meta = world.getBlockMetadata(x, y, z);
+		world.setBlockMetadataWithNotify(x, y, z, (meta & ~MASK_POWER) | ((power << 2) & MASK_POWER));
 	}
 
-	private void breakAxle(World world, int x, int y, int z) {
+	public void breakAxle(World world, int x, int y, int z) {
 		dropBlockWithCause(world, EnumDropCause.WORLD, x, y, z, 0, null, null);
 		world.playSoundEffect(null,
 			SoundCategory.WORLD_SOUNDS,
@@ -148,30 +149,13 @@ public class BlockLogicAxle extends BlockLogicAxisAligned {
 	}
 
 	public int getPowerLevel(World world, int x, int y, int z) {
-		return world.getBlockMetadata(x, y, z) & 3;
+		int meta = world.getBlockMetadata(x, y, z);
+		return (meta & MASK_POWER) >> 2;
 	}
 
 	private Axis getAxisAlignment(World world, int x, int y, int z) {
-		int meta = world.getBlockMetadata(x, y, z) >> 2;
+		int meta = world.getBlockMetadata(x, y, z) & MASK_AXIS;
 		return metaToAxis(meta);
-	}
-
-	@Override
-	public void animationTick(World world, int x, int y, int z, Random rand) {
-		if (getPowerLevel(world, x, y, z) > 0) {
-			emitAxleParticles(world, x, y, z, rand);
-		}
-	}
-
-	private void emitAxleParticles(World world, int x, int y, int z, Random rand) {
-		if (world.isClientSide) {
-			for (int i = 0; i < 2; i++) {
-				float smokeX = (float) x + rand.nextFloat();
-				float smokeY = (float) y + rand.nextFloat() * 0.5F + 0.625F;
-				float smokeZ = (float) z + rand.nextFloat();
-				world.spawnParticle("smoke", smokeX, smokeY, smokeZ, 0.0D, 0.0D, 0.0D, 0);
-			}
-		}
 	}
 
 	@Override
@@ -199,7 +183,26 @@ public class BlockLogicAxle extends BlockLogicAxisAligned {
 
 	public boolean isAxleOriented(World world, int x, int y, int z, Axis axis) {
 		Axis axisAlignment = getAxisAlignment(world, x, y, z);
-
 		return axis == axisAlignment;
+	}
+
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, int blockId) {
+		world.scheduleBlockUpdate(x, y, z, this.block.id(), tickDelay());
+	}
+
+	private void emitParticles(World world, int i, int j, int k, Random random) {
+		for(int counter = 0; counter < 2; counter++)
+		{
+			float smokeX = (float)i + random.nextFloat();
+			float smokeY = (float)j + random.nextFloat() * 0.5F + 0.625F;
+			float smokeZ = (float)k + random.nextFloat();
+			world.spawnParticle("smoke", smokeX, smokeY, smokeZ, 0.0D, 0.0D, 0.0D, 0);
+		}
+	}
+
+	public boolean isAxleOriented(WorldSource blockAccess, int x, int y, int z, Axis axis) {
+		int meta = blockAccess.getBlockMetadata(x, y, z) & MASK_AXIS;
+		return metaToAxis(meta) == axis;
 	}
 }

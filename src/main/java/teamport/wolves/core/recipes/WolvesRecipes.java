@@ -142,12 +142,6 @@ public class WolvesRecipes implements RecipeEntrypoint {
 			.addInput('2', Blocks.SOULSAND)
 			.create("hellfire_ingot", new ItemStack(WolvesItems.DUST_HELLFIRE, 8));
 
-		// TEMPORARY!! Replace this with a 'Cauldron w/ Bellows' recipe!
-		new RecipeBuilderShaped(MOD_ID, "111", "121", "111")
-			.addInput('1', WolvesItems.DUST_HELLFIRE)
-			.addInput('2', Items.NETHERCOAL)
-			.create("hellfire_ingot", new ItemStack(WolvesItems.INGOT_HELLFIRE));
-
 		// TEMPORARY! Replace with a 'Crucible' recipe!
 		new RecipeBuilderShapeless(MOD_ID)
 			.addInput(WolvesItems.DUST_COAL)

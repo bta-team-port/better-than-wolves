@@ -42,3 +42,7 @@ item.wolves.food.cake.chocolate.name=Chocolate-Topped Cake
 item.wolves.food.cake.chocolate.desc=A cake with chocolate toppings. Yum!
 item.wolves.food.cake.sprinkles.name=Sprinkle-Topped Cake
 item.wolves.food.cake.sprinkles.desc=A cake decorated with sprinkles. Happy birthday!
+item.wolves.sail.name=Sail
+item.wolves.sail.desc=A big ol' sail for a windmill.
+item.wolves.windmill.name=Windmill
+item.wolves.windmill.desc=Rotational power made easy and (mostly) labor-free!.

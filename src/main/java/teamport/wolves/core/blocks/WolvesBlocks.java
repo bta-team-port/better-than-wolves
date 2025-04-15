@@ -28,6 +28,7 @@ public class WolvesBlocks {
 	public static final Block<BlockLogicMillstone> MILLSTONE;
 	public static final Block<BlockLogic> CAULDRON;
 	public static final Block<BlockLogicAxle> AXLE;
+	public static final Block<BlockLogicGearBox> GEAR_BOX;
 //	public static final Block<BlockLogic> FIRE_STOKED;
 	public static final Block<BlockLogicCake> CAKE_PLAIN;
 	public static final Block<BlockLogicCake> CAKE_CHOCOLATE;
@@ -44,7 +45,7 @@ public class WolvesBlocks {
 			.setBlockSound(BlockSounds.GLASS)
 			.setHardness(0.3F)
 			.setLuminance(1)
-			.setTags(BlockTags.MINEABLE_BY_PICKAXE)
+			.setTags(BlockTags.MINEABLE_BY_PICKAXE, BlockTags.NOT_IN_CREATIVE_MENU)
 			.build("sunlamp.active", nextID(), b -> new BlockLogicSunLamp(b, false))
 			.withLightEmission(1.0F);
 
@@ -69,30 +70,34 @@ public class WolvesBlocks {
 		HAND_CRANK = new BlockBuilder(MOD_ID)
 			.setBlockSound(BlockSounds.STONE)
 			.setHardness(3.5F)
-			.setTicking(true)
 			.setTags(BlockTags.BROKEN_BY_FLUIDS, BlockTags.MINEABLE_BY_PICKAXE)
 			.build("handcrank", nextID(), BlockLogicHandCrank::new);
 
 		MILLSTONE = new BlockBuilder(MOD_ID)
 			.setBlockSound(BlockSounds.STONE)
 			.setHardness(3.5F)
-			.setTicking(true)
 			.setTags(BlockTags.MINEABLE_BY_PICKAXE)
 			.build("millstone", nextID(), BlockLogicMillstone::new);
 
 		CAULDRON = new BlockBuilder(MOD_ID)
 			.setBlockSound(BlockSounds.METAL)
 			.setHardness(10.0F)
-			.setTicking(true)
 			.setTags(BlockTags.MINEABLE_BY_PICKAXE)
 			.build("cauldron", nextID(), BlockLogicCauldron::new);
 
 		AXLE = new BlockBuilder(MOD_ID)
 			.setBlockSound(BlockSounds.WOOD)
 			.setHardness(1.0F)
-			.setTicking(true)
 			.setTags(BlockTags.MINEABLE_BY_AXE)
-			.build("axle", nextID(), BlockLogicAxle::new);
+			.build("axle", nextID(), BlockLogicAxle::new)
+			.withDisabledNeighborNotifyOnMetadataChange();
+
+		GEAR_BOX = new BlockBuilder(MOD_ID)
+			.setBlockSound(BlockSounds.WOOD)
+			.setHardness(1.0F)
+			.setTags(BlockTags.MINEABLE_BY_AXE)
+			.build("gearbox", nextID(), BlockLogicGearBox::new)
+			.withDisabledNeighborNotifyOnMetadataChange();
 
 		CAKE_PLAIN = new BlockBuilder(MOD_ID)
 			.setBlockSound(BlockSounds.CLOTH)

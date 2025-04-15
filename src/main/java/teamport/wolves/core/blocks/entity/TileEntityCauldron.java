@@ -4,16 +4,20 @@ import com.mojang.nbt.tags.CompoundTag;
 import com.mojang.nbt.tags.ListTag;
 import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntity;
-import net.minecraft.core.data.registry.recipe.RecipeSymbol;
 import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.InventorySorter;
 import net.minecraft.core.player.inventory.container.Container;
+import net.minecraft.core.util.collection.Pair;
 import org.jetbrains.annotations.Nullable;
+import sunsetsatellite.catalyst.core.util.io.InventoryWrapper;
 import teamport.wolves.core.blocks.logic.BlockLogicCauldron;
 import teamport.wolves.core.recipes.WolvesRecipes;
 import teamport.wolves.core.recipes.entry.RecipeEntryCauldron;
 import teamport.wolves.core.util.InventoryHandler;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TileEntityCauldron extends TileEntity implements Container {
 	private ItemStack[] inv = new ItemStack[27];
@@ -153,7 +157,6 @@ public class TileEntityCauldron extends TileEntity implements Container {
 		}
 	}
 
-	// TODO - This is incredibly buggy!
 	private void performNormalFireUpdate() {
 		if (worldObj == null) {
 			return;
@@ -165,27 +168,34 @@ public class TileEntityCauldron extends TileEntity implements Container {
 			if (cookProgress >= 1950) {
 				cookProgress = 0;
 
-				for (RecipeEntryCauldron recipeEntry : WolvesRecipes.CAULDRON.getAllRecipes()) {
-					ItemStack result = recipeEntry.getResult(this);
+				Pair<RecipeEntryCauldron, ItemStack> currentRecipe = getCurrentRecipe();
+				if(currentRecipe == null) {
+					return;
+				}
 
-					if (result != null) {
-						for (int i = 0; i < inv.length; i++) {
-							ItemStack invStack = inv[i];
+				ItemStack result = currentRecipe.getRight();
+				RecipeEntryCauldron recipe = currentRecipe.getLeft();
 
-							for (RecipeSymbol symbol : recipeEntry.getInput()) {
-								if (symbol.matches(invStack)) {
-									removeItem(i, symbol.getStack().stackSize);
+				InventoryWrapper wrapper = new InventoryWrapper(this);
 
-									if (!InventoryHandler.addItemStackToInventory(this, result)) {
-										InventoryHandler.dropWithRandomOffset(worldObj, x, y, z, result);
-									}
-								}
-							}
-						}
-					}
+				List<ItemStack> inputs = recipe.getInput().stream().flatMap((I) -> I.resolve().stream()).collect(Collectors.toList());
+				wrapper.removeAll(inputs,false,false);
+				ItemStack remainder = wrapper.add(result);
+				if (remainder != null) {
+					InventoryHandler.dropWithRandomOffset(worldObj, x, y, z, remainder);
 				}
 			}
 		}
+	}
+
+	public Pair<RecipeEntryCauldron, ItemStack> getCurrentRecipe(){
+		for (RecipeEntryCauldron recipeEntry : WolvesRecipes.CAULDRON.getAllRecipes()) {
+			ItemStack result = recipeEntry.getResult(this);
+			if(result != null) {
+				return Pair.of(recipeEntry, result);
+			}
+		}
+		return null;
 	}
 
 	public boolean isCooking() {

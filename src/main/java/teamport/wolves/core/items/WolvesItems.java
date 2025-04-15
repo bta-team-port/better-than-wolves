@@ -5,6 +5,7 @@ import net.minecraft.core.item.ItemFood;
 import net.minecraft.core.item.ItemPlaceable;
 import teamport.wolves.core.WolvesConfig;
 import teamport.wolves.core.blocks.WolvesBlocks;
+import teamport.wolves.core.items.logic.ItemWindmill;
 import turniplabs.halplibe.helper.ItemBuilder;
 
 import static teamport.wolves.BetterThanWolves.MOD_ID;
@@ -40,6 +41,8 @@ public class WolvesItems {
 	public static final Item INGOT_SOULFORGED_STEEL_CRUDE;
 	public static final Item INGOT_SOULFORGED_STEEL;
 	public static final Item DUNG;
+	public static final Item SAIL;
+	public static final Item WINDMILL;
 
 	static {
 		GEAR = new ItemBuilder(MOD_ID)
@@ -109,6 +112,14 @@ public class WolvesItems {
 			.build(new Item("ingot.soulforgedsteel.crude", "wolves:item/ingot_soulforged_steel_crude", nextID()));
 
 		DUNG = new ItemBuilder(MOD_ID)
-			.build(new Item("dung", "wolves:item/dung",nextID()));
+			.build(new Item("dung", "wolves:item/dung", nextID()));
+
+		SAIL = new ItemBuilder(MOD_ID)
+			.setStackSize(1)
+			.build(new Item("sail", "wolves:item/sail", nextID()));
+
+		WINDMILL = new ItemBuilder(MOD_ID)
+			.setStackSize(1)
+			.build(new ItemWindmill("windmill", "wolves:item/windmill", nextID()));
 	}
 }

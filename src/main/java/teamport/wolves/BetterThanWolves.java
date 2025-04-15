@@ -8,6 +8,7 @@ import teamport.wolves.core.WolvesConfig;
 import teamport.wolves.core.blocks.WolvesBlocks;
 import teamport.wolves.core.blocks.entity.TileEntityCauldron;
 import teamport.wolves.core.blocks.entity.TileEntityMillstone;
+import teamport.wolves.core.entity.WolvesEntities;
 import teamport.wolves.core.items.WolvesItems;
 import turniplabs.halplibe.helper.EntityHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
@@ -31,6 +32,7 @@ public class BetterThanWolves implements ModInitializer, GameStartEntrypoint {
 	public void beforeGameStart() {
 		new WolvesBlocks();
 		new WolvesItems();
+		new WolvesEntities();
 	}
 
 	@Override

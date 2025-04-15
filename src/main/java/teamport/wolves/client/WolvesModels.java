@@ -12,9 +12,12 @@ import net.minecraft.client.render.texture.stitcher.TextureRegistry;
 import net.minecraft.core.util.helper.Side;
 import org.useless.DragonFly;
 import org.useless.dragonfly.models.block.BlockModelDFJava;
+import teamport.wolves.client.model.BlockModelGearBox;
+import teamport.wolves.client.renderer.EntityRendererWindmill;
 import teamport.wolves.core.blocks.WolvesBlocks;
 import teamport.wolves.core.blocks.metastate.AxleStateInterpreter;
 import teamport.wolves.core.blocks.metastate.HandCrankStateInterpreter;
+import teamport.wolves.core.entity.logic.EntityWindmill;
 import teamport.wolves.core.items.WolvesItems;
 import turniplabs.halplibe.helper.ModelHelper;
 import turniplabs.halplibe.util.ModelEntrypoint;
@@ -82,6 +85,8 @@ public class WolvesModels implements ModelEntrypoint {
 			.setTex(0, "wolves:block/cake/top_sprinkles", Side.TOP)
 			.setTex(0, "minecraft:block/cake/side", Side.NORTH, Side.EAST, Side.SOUTH, Side.WEST)
 			.setTex(0, "minecraft:block/cake/bottom", Side.BOTTOM));
+
+		dispatcher.addDispatch(new BlockModelGearBox<>(WolvesBlocks.GEAR_BOX));
 	}
 
 	@Override
@@ -225,11 +230,23 @@ public class WolvesModels implements ModelEntrypoint {
 			itemModel.icon = TextureRegistry.getTexture("wolves:item/dung");
 			return itemModel;
 		});
+
+		ModelHelper.setItemModel(WolvesItems.SAIL, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.SAIL, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/windmill/sail");
+			return itemModel;
+		});
+
+		ModelHelper.setItemModel(WolvesItems.WINDMILL, () -> {
+			ItemModelStandard itemModel = new ItemModelStandard(WolvesItems.WINDMILL, MOD_ID);
+			itemModel.icon = TextureRegistry.getTexture("wolves:item/windmill/windmill");
+			return itemModel;
+		});
 	}
 
 	@Override
 	public void initEntityModels(EntityRenderDispatcher dispatcher) {
-
+		ModelHelper.setEntityModel(EntityWindmill.class, EntityRendererWindmill::new);
 	}
 
 	@Override

@@ -115,18 +115,18 @@
     }
   },
   {
-    "name": "wolves:cauldron/ground_netherrack_to_hellfire_dust",
+    "name": "wolves:cauldron/hellfire_dust_to_concentrated_hellfire",
     "type": "wolves:cauldron",
     "inputs": [
       {
         "stack": {
-          "id": "wolves:item/dust_netherrack",
+          "id": "wolves:item/dust_hellfire",
           "amount": 8
         }
       }
     ],
     "output": {
-      "id": "wolves:item/dust_hellfire"
+      "id": "wolves:item/ingot_hellfire"
     }
   },
   {

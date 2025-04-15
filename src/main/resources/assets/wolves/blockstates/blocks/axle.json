@@ -5,7 +5,7 @@
         "model": "wolves:blocks/axle_up"
       },
       "when": {
-        "axis": "Y"
+        "axis": "0"
       }
     },
     {
@@ -13,7 +13,7 @@
         "model": "wolves:blocks/axle_forward"
       },
       "when": {
-        "axis": "Z"
+        "axis": "1"
       }
     },
     {
@@ -21,7 +21,7 @@
         "model": "wolves:blocks/axle_sideways"
       },
       "when": {
-        "axis": "X"
+        "axis": "2"
       }
     }
   ]
